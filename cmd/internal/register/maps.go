@@ -167,8 +167,12 @@ func Maps(a *atlas.Atlas, maps []config.Map, providers map[string]provider.Tiler
 			}
 			newLayer, err := initLayer(&l, string(m.Name), prvd)
 			if err != nil {
-				return err
+				return ErrFetchingLayerInfo{
+					Provider: providerName,
+				}
 			}
+
+			// add our layer to our layers slice
 			newMap.Layers = append(newMap.Layers, newLayer)
 		}
 		a.AddMap(newMap)

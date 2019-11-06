@@ -1,6 +1,7 @@
 package register_test
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/go-spatial/tegola/atlas"
@@ -11,37 +12,45 @@ import (
 
 func TestMaps(t *testing.T) {
 	type tcase struct {
-		atlas       atlas.Atlas
+		atlas       *atlas.Atlas
 		maps        []config.Map
 		providers   []dict.Dict
 		expectedErr error
 	}
 
-	fn := func(t *testing.T, tc tcase) {
-		var err error
-
-		// convert []dict.Dict -> []dict.Dicter
-		provArr := make([]dict.Dicter, len(tc.providers))
-		for i := range provArr {
-			provArr[i] = tc.providers[i]
+	fn := func(tc tcase) func(*testing.T) {
+		// atlas contains a lock; we get a vet error if we are
+		// just using the value version of it. So, make it a
+		// pointer and init it if it is nil before the test.
+		if tc.atlas == nil {
+			tc.atlas = new(atlas.Atlas)
 		}
+		return func(t *testing.T) {
+			var err error
 
-		providers, err := register.Providers(provArr)
-		if err != nil {
-			t.Errorf("unexpected err: %v", err)
-			return
-		}
-
-		err = register.Maps(&tc.atlas, tc.maps, providers)
-		if tc.expectedErr != nil {
-			if err.Error() != tc.expectedErr.Error() {
-				t.Errorf("invalid error. expected: %v, got: %v", tc.expectedErr, err.Error())
+			// convert []dict.Dict -> []dict.Dicter
+			provArr := make([]dict.Dicter, len(tc.providers))
+			for i := range provArr {
+				provArr[i] = tc.providers[i]
 			}
-			return
-		}
-		if err != nil {
-			t.Errorf("unexpected err: %v", err)
-			return
+
+			providers, err := register.Providers(provArr)
+			if err != nil {
+				t.Errorf("unexpected err: %v", err)
+				return
+			}
+
+			err = register.Maps(tc.atlas, tc.maps, providers)
+			if tc.expectedErr != nil {
+				if !errors.As(err, &tc.expectedErr) {
+					t.Errorf("invalid error. expected: %v, got: %v", tc.expectedErr, err.Error())
+				}
+				return
+			}
+			if err != nil {
+				t.Errorf("unexpected err: %v", err)
+				return
+			}
 		}
 	}
 
@@ -140,7 +149,6 @@ func TestMaps(t *testing.T) {
 	}
 
 	for name, tc := range tests {
-		tc := tc
-		t.Run(name, func(t *testing.T) { fn(t, tc) })
+		t.Run(name, fn(tc))
 	}
 }
