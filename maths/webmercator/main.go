@@ -17,7 +17,7 @@ const (
 )
 
 const (
-	SRID        = 3857
+	SRID        = 3395
 	EarthRadius = RMajor
 	Deg2Rad     = math.Pi / 180
 	Rad2Deg     = 180 / math.Pi

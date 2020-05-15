@@ -11,7 +11,7 @@ import (
 // (square) tile in pixels usually 4096, see DefaultExtent.
 // This function treats the tile extent elements as left, top, right, bottom. This is fine
 // when working with a north-positive projection such as lat/long (epsg:4326)
-// and web mercator (epsg:3857), but a south-positive projection (ie. epsg:2054) or west-postive
+// and world mercator (epsg:3395), but a south-positive projection (ie. epsg:2054) or west-postive
 // projection would then flip the geomtery. To properly render these coordinate systems, simply
 // swap the X's or Y's in the tile extent.
 func PrepareGeo(geo geom.Geometry, tile *geom.Extent, pixelExtent float64) geom.Geometry {

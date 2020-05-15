@@ -27,7 +27,7 @@ func genSQL(l *Layer, pool *pgx.ConnPool, tblname string, flds []string) (sql st
 		//	'tablename' param. because of this case normal SQL token replacement needs to be
 		//	applied to tablename SQL generation
 		tile := provider.NewTile(0, 0, 0, 64, tegola.WebMercator)
-		sql, err = replaceTokens(sql, 3857, tile)
+		sql, err = replaceTokens(sql, 3395, tile)
 		if err != nil {
 			return "", err
 		}

@@ -89,7 +89,7 @@ var isSelectQuery = regexp.MustCompile(`(?i)^((\s*)(--.*\n)?)*select`)
 // 	database (string): [Required] postgis database name
 // 	user (string): [Required] postgis database user
 // 	password (string): [Required] postgis database password
-// 	srid (int): [Optional] The default SRID for the provider. Defaults to WebMercator (3857) but also supports WGS84 (4326)
+// 	srid (int): [Optional] The default SRID for the provider. Defaults to WorldMercator (3395) but also supports WGS84 (4326)
 // 	max_connections : [Optional] The max connections to maintain in the connection pool. Default is 100. 0 means no max.
 // 	layers (map[string]struct{})  — This is map of layers keyed by the layer name. supports the following properties
 //
@@ -98,7 +98,7 @@ var isSelectQuery = regexp.MustCompile(`(?i)^((\s*)(--.*\n)?)*select`)
 // 		geometry_fieldname (string): [Optional] the name of the filed which contains the geometry for the feature. defaults to geom
 // 		id_fieldname (string): [Optional] the name of the feature id field. defaults to gid
 // 		fields ([]string): [Optional] a list of fields to include alongside the feature. Can be used if sql is not defined.
-// 		srid (int): [Optional] the SRID of the layer. Supports 3857 (WebMercator) or 4326 (WGS84).
+// 		srid (int): [Optional] the SRID of the layer. Supports 3395 (WorldMercator) or 4326 (WGS84).
 // 		sql (string): [*Required] custom SQL to use use. Required if tablename is not defined. Supports the following tokens:
 //
 // 			!BBOX! - [Required] will be replaced with the bounding box of the tile before the query is sent to the database.

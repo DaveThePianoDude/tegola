@@ -16,7 +16,7 @@ Tegola is a vector tile server delivering [Mapbox Vector Tiles](https://github.c
 - Support for several cache backends: [file](cache/file), [s3](cache/s3), [redis](cache/redis), [azure blob store](cache/azblob).
 - Cache seeding and invalidation via individual tiles (ZXY), lat / lon bounds and ZXY tile list.
 - Parallelized tile serving and geometry processing.
-- Support for Web Mercator (3857) and WGS84 (4326) projections.
+- Support for World Mercator (3395) and WGS84 (4326) projections.
 - Support for [AWS Lambda](cmd/tegola_lambda).
 - Support for serving HTTPS.
 
@@ -127,20 +127,20 @@ port = 5432                 # postgis database port (required)
 database = "tegola"         # postgis database name (required)
 user = "tegola"             # postgis database user (required)
 password = ""               # postgis database password (required)
-srid = 3857                 # The default srid for this provider. Defaults to WebMercator (3857) (optional)
+srid = 3395                 # The default srid for this provider. Defaults to WorldMercator (3395) (optional)
 max_connections = 50        # The max connections to maintain in the connection pool. Default is 100. (optional)
 ssl_mode = "prefer"        # PostgreSQL SSL mode*. Default is "disable". (optional)
 
 	[[providers.layers]]
 	name = "landuse"                    # will be encoded as the layer name in the tile
-	tablename = "gis.zoning_base_3857"  # sql or tablename are required
+	tablename = "gis.zoning_base_3395"  # sql or tablename are required
 	geometry_fieldname = "geom"         # geom field. default is geom
 	id_fieldname = "gid"                # geom id field. default is gid
-	srid = 4326                         # the srid of table's geo data. Defaults to WebMercator (3857)
+	srid = 4326                         # the srid of table's geo data. Defaults to WorldMercator (3395)
 
 	[[providers.layers]]
 	name = "roads"                      # will be encoded as the layer name in the tile
-	tablename = "gis.zoning_base_3857"  # sql or tablename are required
+	tablename = "gis.zoning_base_3395"  # sql or tablename are required
 	geometry_fieldname = "geom"         # geom field. default is geom
 	geometry_type = "linestring"        # geometry type. if not set, tables are inspected at startup to try and infer the gemetry type
 	id_fieldname = "gid"                # geom id field. default is gid
@@ -204,7 +204,7 @@ port = "${POSTGIS_PORT}"    # recall this value must be an int
 database = "${POSTGIS_DB}"
 user = "tegola"
 password = ""
-srid = 3857
+srid = 3395
 max_connections = "${POSTGIS_MAX_CONN}"
 ```
 
