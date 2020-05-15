@@ -35,11 +35,11 @@ func NewTile(z, x, y, buf, srid uint) Tile {
 }
 
 func (tile *tile_t) Extent() (ext *geom.Extent, srid uint64) {
-	return tile.Extent3857(), 3395
+	return tile.Extent3395(), 3395
 }
 
 func (tile *tile_t) BufferedExtent() (ext *geom.Extent, srid uint64) {
-	return tile.Extent3857().ExpandBy(slippy.Pixels2Webs(tile.Z, tile.buffer)), 3395
+	return tile.Extent3395().ExpandBy(slippy.Pixels2Webs(tile.Z, tile.buffer)), 3395
 }
 
 // Tile is an interface used by Tiler, it is an unecessary abstraction and is

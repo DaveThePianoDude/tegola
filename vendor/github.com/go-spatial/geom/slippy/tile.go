@@ -94,8 +94,8 @@ func FromBounds(bounds *geom.Extent, z uint) []Tile {
 // ZXY returns back the z,x,y of the tile
 func (t Tile) ZXY() (uint, uint, uint) { return t.Z, t.X, t.Y }
 
-// Extent3857 returns the tile's extent in EPSG:3857 (aka Web Mercator) projection
-func (t Tile) Extent3857() *geom.Extent {
+// Extent3395 returns the tile's extent in EPSG:3395 (aka World Mercator) projection
+func (t Tile) Extent3395() *geom.Extent {
 	return geom.NewExtent(
 		[2]float64{Tile2WebX(t.Z, t.X), Tile2WebY(t.Z, t.Y+1)},
 		[2]float64{Tile2WebX(t.Z, t.X+1), Tile2WebY(t.Z, t.Y)},
